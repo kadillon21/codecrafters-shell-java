@@ -8,8 +8,14 @@ public class Main {
         while (isRunning) {
             System.out.print("$ ");
             Scanner scanner = new Scanner(System.in);
+            String command = scanner.nextLine();
 
-            System.out.println(scanner.nextLine() + ": command not found");
+            if (command.equals("exit")) {
+                isRunning = false;
+                continue;
+            } else {
+                System.out.println(command + ": command not found");
+            }
         }
     }
 }
