@@ -14,12 +14,16 @@ public class Main {
             String command = scanner.nextLine();
 
             if (command.equals("exit")) {
+                // exit the program
                 isRunning = false;
             } else if (command.startsWith("echo")) {
+                // repeats the string after the echo command
                 System.out.println(command.substring(5));
             } else if (command.startsWith("type")) {
+                // prints the type of the command (builtin, executable, or not found)
                 String lookup = command.substring(5);
-                String[] builtin = {"echo", "exit", "type", "pwd"};
+                // List of builtin commands
+                String[] builtin = {"echo", "exit", "type", "pwd", "cd"};
                 boolean isBuiltin = false;
                 for (String s : builtin) {
                     if (lookup.equals(s)) {
@@ -38,9 +42,19 @@ public class Main {
                 }
 
             } else if (command.startsWith("pwd")){
+                // prints the current working directory
                 System.out.println(System.getProperty("user.dir"));
 
-            }else if (pathFinder(command.split(" ")[0]) != null){
+            } else if (command.startsWith("cd")){
+                // Changes the current working directory
+                String path = command.substring(3);
+                File file = new File(path);
+                if (file.exists() && file.isDirectory()){
+                    System.setProperty("user.dir", path);
+                } else {
+                    System.out.println("cd: " + path + ": No such file or directory");
+                }
+            } else if (pathFinder(command.split(" ")[0]) != null){
                 // Split the command into an array of strings to pass as arguments to ProcessBuilder
                 List<String> input = Arrays.asList(command.split(" "));
 
