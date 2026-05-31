@@ -1,4 +1,6 @@
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -35,7 +37,16 @@ public class Main {
 
                 }
 
+            } else if (pathFinder(command.split(" ")[0]) != null){
+                List<String> input = Arrays.asList(command.split(" "));
+
+                ProcessBuilder pb = new ProcessBuilder(input);
+                pb.inheritIO();
+                Process p = pb.start();
+                p.waitFor();
+
             } else {
+
                 System.out.println(command + ": command not found");
             }
         }
