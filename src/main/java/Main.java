@@ -28,7 +28,7 @@ public class Main {
                 if (!isBuiltin) {
                     String path = pathFinder(lookup);
                     if (path == null) {
-                        System.out.println(lookup + ": command not found");
+                        System.out.println(lookup + ": not found");
                     } else {
                         System.out.println(lookup + " is " + path);
                     }
