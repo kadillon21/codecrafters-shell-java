@@ -1,4 +1,7 @@
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -41,19 +44,22 @@ public class Main {
 
                 }
 
-            } else if (command.startsWith("pwd")){
+            } else if (command.equals("pwd")){
                 // prints the current working directory
                 System.out.println(System.getProperty("user.dir"));
 
-            } else if (command.startsWith("cd")){
+            } else if (command.equals("cd") || command.startsWith("cd ")){
                 // Changes the current working directory
                 String path = command.substring(3);
-                File file = new File(path);
-                if (file.exists() && file.isDirectory()){
-                    System.setProperty("user.dir", path);
+                Path current = Paths.get(System.getProperty("user.dir"));
+                if(Files.exists(current.resolve(path))) {
+                    current = current.normalize();
+                    System.setProperty("user.dir", current.toString());
                 } else {
                     System.out.println("cd: " + path + ": No such file or directory");
                 }
+
+
             } else if (pathFinder(command.split(" ")[0]) != null){
                 // Split the command into an array of strings to pass as arguments to ProcessBuilder
                 List<String> input = Arrays.asList(command.split(" "));
