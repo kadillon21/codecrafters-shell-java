@@ -53,7 +53,10 @@ public class Main {
                 String path = command.substring(3);
                 Path current = Paths.get(System.getProperty("user.dir"));
                 current = current.resolve(path);
-                if(Files.exists(current)) {
+                if (path.equals("~")){
+                    current = Paths.get(System.getenv("HOME"));
+                    System.setProperty("user.dir", current.toString());
+                } else if(Files.exists(current)) {
                     current = current.normalize();
                     System.setProperty("user.dir", current.toString());
                 } else {
