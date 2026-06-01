@@ -97,30 +97,38 @@ public class Main {
         StringBuilder sb = new StringBuilder();
         List<String> tokens = new ArrayList<>();
 
-        boolean inQuote = false;
+        char inQuote = 0;
         char prev = 0;
-        for (char c : input.toCharArray()) {
 
-            if (!inQuote && c == '\'') {
-                inQuote = true;
-            } else if (inQuote && c == '\'') {
-                inQuote = false;
+        for (char c : input.toCharArray()) {
+            char singleQuote = '\'';
+            char doubleQuote = '"';
+            char singleSpace = ' ';
+
+            if (inQuote == 0 && (c == singleQuote || c == doubleQuote)) {
+                if (c == singleQuote){
+                    inQuote = singleQuote;
+                } else {
+                    inQuote = doubleQuote;
+                }
+            } else if (c == inQuote) {
+                inQuote = 0;
+                continue;
             }
 
-            if (!inQuote && c == ' ') {
+            if (inQuote == 0 && c == singleSpace) {
                 if (!sb.isEmpty()) {
                     tokens.add(sb.toString());
                     sb.setLength(0);
                 }
             }
-                if (inQuote) {
-                    if (c != '\'') {
-                        sb.append(c);
-                    }
-                } else {
-                    if (c != ' ' && c != '\'') {
-                        sb.append(c);
-                    }
+
+            if (inQuote == c) {
+                continue;
+            } else if (inQuote == 0 && c == singleSpace) {
+                continue;
+            }else {
+                sb.append(c);
                 }
                 prev = c;
             }
@@ -143,5 +151,6 @@ public class Main {
             }
             return null;
         }
+
     }
 
