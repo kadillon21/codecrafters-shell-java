@@ -52,7 +52,8 @@ public class Main {
                 // Changes the current working directory
                 String path = command.substring(3);
                 Path current = Paths.get(System.getProperty("user.dir"));
-                if(Files.exists(current.resolve(path))) {
+                current = current.resolve(path);
+                if(Files.exists(current)) {
                     current = current.normalize();
                     System.setProperty("user.dir", current.toString());
                 } else {
