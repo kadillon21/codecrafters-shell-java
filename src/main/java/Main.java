@@ -114,6 +114,11 @@ public class Main {
                     inQuote = doubleQuote;
                 }
             } else if (c == inQuote) {
+                if (prev == backslash && inQuote == doubleQuote) {
+                    sb.append(c);
+                    prev = 0;
+                    continue;
+                }
                 inQuote = 0;
                 continue;
             }
@@ -141,6 +146,16 @@ public class Main {
                 }
                 prev = c;
                 continue;
+            } else if (inQuote == doubleQuote && c == backslash){
+                if (prev == backslash) {
+                    sb.append(c);
+                    prev = 0;
+                    continue;
+                } else {
+                    prev = c;
+                    continue;
+
+                }
             } else if (inQuote == 0 && (prev == backslash)) {
                 sb.append(c);
             } else {
